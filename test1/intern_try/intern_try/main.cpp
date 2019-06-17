@@ -1,79 +1,79 @@
 #include <iostream>
-#include<queue>
-using namespace std;
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
 
-int main() {
-    //code
-    int n ;
-    cin >> n ;
+using namespace std ;
+
+
+bool hasPairDivByK(int* arr , int n , int k){
     
-    priority_queue<int> maxpq ;
-    priority_queue<int,vector<int>,greater<int> > minpq ;
+    unordered_map<int, int> m ;
     
-    int x ;
     for(int i=0 ; i<n ; ++i){
-        cin >> x ;
-        //cout << "x : "<<x << " " ;
-        if(maxpq.empty() && minpq.empty()){
-            minpq.push(x) ;
-            cout << x << endl ;
-        } else {
-            
-            if(!maxpq.empty() && x<=maxpq.top()){
-                if(maxpq.size() <=minpq.size()){
-                    // can push to maxpq
-                    maxpq.push(x) ;
-                    if(maxpq.size()==minpq.size()){
-                        cout << (maxpq.top() + minpq.top())/2 << endl ;
-                    } else if(maxpq.size() == minpq.size()+1){
-                        cout << maxpq.top() << endl ;
-                    }
-                } else {
-                    // cannot push to maxpq
-                    minpq.push(maxpq.top()) ;
-                    maxpq.pop() ;
-                    maxpq.push(x) ;
-                    cout << (maxpq.top() + minpq.top())/2 << endl ;
-                }
-                
-                
-            } else if(!minpq.empty() && x>=minpq.top()){
-                if(minpq.size()<=maxpq.size()){
-                    // can push to minpq
-                    minpq.push(x) ;
-                    if(maxpq.size()==minpq.size()){
-                        cout << (maxpq.top() + minpq.top())/2 ;
-                    } else if(maxpq.size()+1 == minpq.size()){
-                        cout << minpq.top() << endl ;
-                    }
-                } else {
-                    //cannot push to minpq
-                    maxpq.push(minpq.top()) ;
-                    minpq.pop() ;
-                    minpq.push(x) ;
-                    cout << (maxpq.top() + minpq.top())/2 << endl ;
-                }
-            } else {
-                if(minpq.size()==maxpq.size()){
-                    minpq.push(x) ;
-                    cout << x << endl ;
-                } else if(minpq.size()>maxpq.size()){
-                    maxpq.push(minpq.top()) ;
-                    minpq.pop() ;
-                    minpq.push(x) ;
-                    cout << (maxpq.top() + minpq.top())/2 << endl ;
-                } else {
-                    minpq.push(maxpq.top()) ;
-                    maxpq.pop() ;
-                    maxpq.push(x) ;
-                    cout << (maxpq.top() + minpq.top())/2 << endl ;
-                }
-            }
-            
+        int num = arr[i] ;
+        if(num>=0){
+            num = num%k ;
+        } else if(num<0){
+            num=num%k ;
+            num+=k ;
         }
-        
+        if(m.count(num)>0){
+            ++m[num] ;
+        } else {
+            m[num] = 1 ;
+        }
     }
     
     
-    return 0;
+    
+    unordered_map<int, int>::iterator it ;
+    
+    for(it=m.begin() ; it!=m.end() ; ++it){
+        cout << it->first << " : " << it->second << endl ;
+    }
+    for(it=m.begin() ; it!=m.end() ; ++it){
+        int cur = it->first ;
+        int f1 = it->second ;
+        
+        if(f1==0){
+            continue ;
+        }
+        if(cur==0){
+            if(m[0]%2!=0){
+                return false ;
+            } else {
+                continue ;
+            }
+        } else if(m.count(k-cur)>0 && m[k-cur]==f1){
+            m[cur] = 0 ;
+            m[k-cur] = 0 ;
+            continue ;
+        } else {
+            cout << cur << endl ;
+            return false ;
+        }
+    }
+    return true ;
+    
 }
+
+
+int main(){
+    int n ;
+    cin >> n ;
+    int k ; cin >> k ;
+    int* arr = new int[n] ;
+    for(int i=0 ; i<n ; ++i){
+        cin >> arr[i] ;
+    }
+    bool ans = hasPairDivByK(arr, n, k) ;
+    if(ans){
+        cout << "true" << endl ;
+    } else {
+        cout << "false" << endl ;
+    }
+}
+
+
+
