@@ -1,6 +1,6 @@
 
 
-
+/*
 6
 12
 0:start:0
@@ -15,7 +15,7 @@
 4:end:20
 3:end:23
 0:end:30
-
+*/
 #include <iostream>
 #include <vector>
 #include <string>

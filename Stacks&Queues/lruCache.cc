@@ -31,7 +31,7 @@ class lruCache{
     void removeLRU(){
         Node* cur = tail ;
         
-        //cout << tail->key << " : " << tail->val << endl ;
+        
         if(tail==head){
             m.erase(head->key) ;
             head = NULL ;
@@ -68,7 +68,7 @@ class lruCache{
             return ;
         } else if(cur->prev == NULL){
             // cur is LRU
-            //cout << "yo" << endl ;
+            
             cur->next->prev = NULL ;
             tail = cur->next ;
             cur->next = NULL ;
@@ -121,7 +121,6 @@ public:
     void set(int k , int v){
         if(m.count(k)>0){
             // key is already present ==> Update value
-            //cout << "hi" << endl ;
             Node* cur = m[k] ;
             cur->val = v ;
             updateMRU(cur) ;
@@ -144,21 +143,7 @@ public:
         }
     }
     
-    void getLRU(){
-        if(size==0){
-            cout << -1 << endl ;
-        } else {
-            cout << tail->key << " : " << tail->val << endl ;
-        }
-    }
-    void printLL(){
-        Node* cur = head ;
-        while(cur!=NULL){
-            cout << cur->key << " : " << cur->val << " --> " ;
-            cur=cur->prev ;
-        }
-        //cout << cur->key << " : " << cur->val << " --> " << endl ;
-     }
+    
     
     
 };
@@ -172,9 +157,7 @@ int main(){
     int n ;
     cin >> n ;
     for(int i=0 ; i<n ; ++i){
-//        l.printLL() ;
-//        cout << endl ;
-//        l.getLRU();
+
         string s ;
         cin >> s ;
         if(s.compare("SET")==0){

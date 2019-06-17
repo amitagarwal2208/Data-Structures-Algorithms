@@ -49,6 +49,7 @@ bool canReorder(int arr[], int n) {
             }
             
             int h = cur/2 ;
+            
             if(m.count(h)==0){
                 return false ;
             } else {
