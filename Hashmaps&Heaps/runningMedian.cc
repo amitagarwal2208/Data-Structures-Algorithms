@@ -1,79 +1,89 @@
 #include <iostream>
 #include<queue>
+#include <iomanip>
 using namespace std;
+
+
 
 int main() {
     //code
     int n = 1  ;
     cin >> n ;
     
-    priority_queue<int> maxpq ;
-    priority_queue<int,vector<int>,greater<int> > minpq ;
+    priority_queue<double> maxpq ;
+    priority_queue<double,vector<double>,greater<double> > minpq ;
+    std::cout << setprecision(1) << fixed;
+    double x ;
+    cin >> x ;
+    cout << (double)x << endl ;
+    maxpq.push(x) ;
     
-    int x ;
-    for(int i=0 ; i<n ; ++i){
+    if(n<2){
+        return 0 ;
+    }
+    
+    cin >> x ;
+    if(x<=maxpq.top()){
+        minpq.push(maxpq.top()) ;
+        maxpq.pop() ;
+        maxpq.push(x) ;
+    } else {
+        minpq.push(x) ;
+    }
+    cout << (double)(maxpq.top()+minpq.top())/2.0 << endl ;
+    
+    for(int i=2 ; i<n ; ++i){
+        
         cin >> x ;
-        //cout << "x : "<<x << " " ;
-        if(maxpq.empty() && minpq.empty()){
-            minpq.push(x) ;
-            cout << x << endl ;
-        } else {
-            
-            if(!maxpq.empty() && x<=maxpq.top()){
-                if(maxpq.size() <=minpq.size()){
-                    // can push to maxpq
-                    maxpq.push(x) ;
-                    if(maxpq.size()==minpq.size()){
-                        cout << (maxpq.top() + minpq.top())/2 << endl ;
-                    } else if(maxpq.size() == minpq.size()+1){
-                        cout << maxpq.top() << endl ;
-                    }
+        
+        if(x<=maxpq.top()){
+            if(maxpq.size()<=minpq.size()){
+                maxpq.push(x) ;
+                if(maxpq.size()==minpq.size()){
+                    cout << (double)(maxpq.top()+minpq.top())/2.0 << endl ;
                 } else {
-                    // cannot push to maxpq
-                    minpq.push(maxpq.top()) ;
-                    maxpq.pop() ;
-                    maxpq.push(x) ;
-                    cout << (maxpq.top() + minpq.top())/2 << endl ;
-                }
-                
-                
-            } else if(!minpq.empty() && x>=minpq.top()){
-                if(minpq.size()<=maxpq.size()){
-                    // can push to minpq
-                    minpq.push(x) ;
-                    if(maxpq.size()==minpq.size()){
-                        cout << (maxpq.top() + minpq.top())/2 ;
-                    } else if(maxpq.size()+1 == minpq.size()){
-                        cout << minpq.top() << endl ;
-                    }
-                } else {
-                    //cannot push to minpq
-                    maxpq.push(minpq.top()) ;
-                    minpq.pop() ;
-                    minpq.push(x) ;
-                    cout << (maxpq.top() + minpq.top())/2 << endl ;
+                    cout << (double)maxpq.top() << endl ;
                 }
             } else {
-                if(minpq.size()==maxpq.size()){
-                    minpq.push(x) ;
-                    cout << x << endl ;
-                } else if(minpq.size()>maxpq.size()){
-                    maxpq.push(minpq.top()) ;
-                    minpq.pop() ;
-                    minpq.push(x) ;
-                    cout << (maxpq.top() + minpq.top())/2 << endl ;
-                } else {
-                    minpq.push(maxpq.top()) ;
-                    maxpq.pop() ;
-                    maxpq.push(x) ;
-                    cout << (maxpq.top() + minpq.top())/2 << endl ;
-                }
+                minpq.push(maxpq.top()) ;
+                maxpq.pop() ;
+                maxpq.push(x) ;
+                cout << (double)(maxpq.top()+minpq.top())/2.0 << endl ;
             }
-            
+        } else if(x>=minpq.top()){
+            if(minpq.size()<=maxpq.size()){
+                minpq.push(x) ;
+                if(minpq.size()==maxpq.size()){
+                    cout << (double)(maxpq.top()+minpq.top())/2.0 << endl ;
+                } else {
+                    cout << (double)minpq.top() << endl ;
+                }
+            } else {
+                maxpq.push(minpq.top()) ;
+                minpq.pop() ;
+                minpq.push(x) ;
+                cout << (double)(maxpq.top()+minpq.top())/2.0 << endl ;
+            }
+        } else {
+            if(maxpq.size() == minpq.size()){
+                maxpq.push(x) ;
+                cout << (double)maxpq.top() << endl ; ;
+            } else if(maxpq.size()>minpq.size()){
+                minpq.push(x) ;
+                cout << (double)(maxpq.top()+minpq.top())/2.0 << endl ;
+            } else {
+                maxpq.push(x) ;
+                cout << (double)(maxpq.top()+minpq.top())/2.0 << endl ;
+            }
         }
+        
+        
+        
         
     }
     
     
     return 0;
 }
+
+

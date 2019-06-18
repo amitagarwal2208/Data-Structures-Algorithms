@@ -1,35 +1,89 @@
 #include <iostream>
 #include<queue>
+#include <iomanip>
+using namespace std;
 
-using namespace std ;
-bool mycmp(int &a , int &b){
-    return a>b ;
+
+
+int main() {
+    //code
+    int n = 1  ;
+    cin >> n ;
+    
+    priority_queue<double> maxpq ;
+    priority_queue<double,vector<double>,greater<double> > minpq ;
+    std::cout << setprecision(1) << fixed;
+    double x ;
+    cin >> x ;
+    cout << (double)x << endl ;
+    maxpq.push(x) ;
+    
+    if(n<2){
+        return 0 ;
+    }
+    
+    cin >> x ;
+    if(x<=maxpq.top()){
+        minpq.push(maxpq.top()) ;
+        maxpq.pop() ;
+        maxpq.push(x) ;
+    } else {
+        minpq.push(x) ;
+    }
+    cout << (double)(maxpq.top()+minpq.top())/2.0 << endl ;
+    
+    for(int i=2 ; i<n ; ++i){
+        
+        cin >> x ;
+        
+        if(x<=maxpq.top()){
+            if(maxpq.size()<=minpq.size()){
+                maxpq.push(x) ;
+                if(maxpq.size()==minpq.size()){
+                    cout << (double)(maxpq.top()+minpq.top())/2.0 << endl ;
+                } else {
+                    cout << (double)maxpq.top() << endl ;
+                }
+            } else {
+                minpq.push(maxpq.top()) ;
+                maxpq.pop() ;
+                maxpq.push(x) ;
+                cout << (double)(maxpq.top()+minpq.top())/2.0 << endl ;
+            }
+        } else if(x>=minpq.top()){
+            if(minpq.size()<=maxpq.size()){
+                minpq.push(x) ;
+                if(minpq.size()==maxpq.size()){
+                    cout << (double)(maxpq.top()+minpq.top())/2.0 << endl ;
+                } else {
+                    cout << (double)minpq.top() << endl ;
+                }
+            } else {
+                maxpq.push(minpq.top()) ;
+                minpq.pop() ;
+                minpq.push(x) ;
+                cout << (double)(maxpq.top()+minpq.top())/2.0 << endl ;
+            }
+        } else {
+            if(maxpq.size() == minpq.size()){
+                maxpq.push(x) ;
+                cout << (double)maxpq.top() << endl ; ;
+            } else if(maxpq.size()>minpq.size()){
+                minpq.push(x) ;
+                cout << (double)(maxpq.top()+minpq.top())/2.0 << endl ;
+            } else {
+                maxpq.push(x) ;
+                cout << (double)(maxpq.top()+minpq.top())/2.0 << endl ;
+            }
+        }
+        
+        
+        
+        
+    }
+    
+    
+    return 0;
 }
 
-class mycmp2{
-public:
-    
-    bool operator() (int a , int b){
-        return a>b ;
-    }
-    
-};
 
-
-int main(){
-    
-    int arr[5] = {4,1,3,5,2} ;
-    sort(arr,arr+5,mycmp) ;
-    for(int i=0 ; i<5 ; ++i){
-        cout << arr[i] << " " ;
-    }
-    cout << endl ;
-    
-    priority_queue<int , vector<int> , mycmp2> pq ;
-    for(int i=1 ; i<=5 ; ++i){
-        pq.push(i) ;
-    }
-    cout << pq.top() << endl ;
-    
-    
-}
