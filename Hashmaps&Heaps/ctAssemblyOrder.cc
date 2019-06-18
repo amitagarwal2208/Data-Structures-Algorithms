@@ -52,3 +52,20 @@ int main(){
     
     printMovts(arr,n) ;
 }
+
+
+
+
+// 12
+// 2 7 1 8 4 11 9 5 6 12 3 10
+// 8
+// Send 6 to front
+// Send 5 to front
+// Send 4 to front
+// Send 3 to front
+// Send 2 to front
+// Send 1 to front
+// Send 11 to back
+// Send 12 to back
+
+

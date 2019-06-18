@@ -6,38 +6,25 @@
 
 using namespace std;
 
-void incStart(int* arr , int n , int & start){
-    
-    while(start<n-1 && arr[start]==arr[start+1]){
-        ++start ;
-    }
-    ++start ;
-}
 
-void decEnd(int* arr , int n , int & end){
-    while(end>0 && arr[end]==arr[end-1]){
-        --end ;
-    }
-    --end ;
-}
-
-int ctTripletTargetSum(int* arr , int n , int k){
-    int ct=0 ;
+int ctTripletsTargetSum(int* arr , int n , int k){
+    int ct = 0 ;
     sort(arr,arr+n) ;
     for(int i=0 ; i<n ; ++i){
+        
         int sum = k-arr[i] ;
+        int start = i+1 ;
         int end = n-1 ;
-        int start = i ;
-        incStart(arr,n,start) ;
+        
         while(start<end){
             int cursum = arr[start]+arr[end] ;
             if(cursum==sum){
                 ++ct ;
-                incStart(arr,n,start) ;
-                decEnd(arr,n,end) ;
-            } else if(cursum<sum){
-                incStart(arr,n,start) ;
-            } else decEnd(arr,n,end) ;
+                ++start ;
+                --end ;
+            } else if(cursum<sum) {
+                ++start ;
+            } else --end ;
         }
     }
     
@@ -47,40 +34,35 @@ int ctTripletTargetSum(int* arr , int n , int k){
 
 vector<vector<int>> printTripletTargetSum(int* arr , int n , int k){
     
-    
-    sort(arr,arr+n) ;
-    
     vector<vector<int>> ans ;
+    sort(arr,arr+n) ;
     for(int i=0 ; i<n ; ++i){
         int sum = k-arr[i] ;
+        int start=i+1 ;
         int end = n-1 ;
-        int start = i ;
-        incStart(arr,n,start) ;
         while(start<end){
-            int cursum = arr[start]+arr[end] ;
+            int cursum = arr[start] + arr[end] ;
             if(cursum==sum){
                 vector<int> v ;
                 v.push_back(arr[i]) ;
                 v.push_back(arr[start]) ;
                 v.push_back(arr[end]) ;
                 ans.push_back(v) ;
-                incStart(arr,n,start) ;
-                decEnd(arr,n,end) ;
+                ++start ;
+                --end ;
             } else if(cursum<sum){
-                incStart(arr,n,start) ;
-            } else decEnd(arr,n,end) ;
+                ++start ;
+            } else --end ;
         }
     }
+    
     
     
     return ans ;
 }
 
-
-
-
 int main() {
-    // Find pair - Duplicacy not allowed
+    // Find triplets - Duplicacy not allowed
     // Count and return only unique Pairs
     int n ,k;
     cin >> n >> k;
@@ -88,7 +70,7 @@ int main() {
     for(int i=0 ; i<n ; ++i){
         cin >> arr[i] ;
     }
-    cout << ctTripletTargetSum(arr, n, k) << endl ;
+    cout << ctTripletsTargetSum(arr, n, k) << endl ;
     
     vector<vector<int>> ans = printTripletTargetSum(arr, n, k) ;
     for(int i=0 ; i<ans.size() ; ++i){
